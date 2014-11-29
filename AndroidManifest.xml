@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.RSen.Widget.Hangouts"
+    android:versionCode="2"
+    android:versionName="2.0" >
+
+    <uses-sdk
+        android:minSdkVersion="18"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <!-- The widget provider -->
+        <receiver android:name="com.RSen.Widget.Hangouts.HangoutsWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <!-- This specifies the widget provider info -->
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetinfo" />
+        </receiver>
+
+        <!-- The service serving the RemoteViews to the collection widget -->
+        <service
+            android:name="com.RSen.Widget.Hangouts.HangoutsWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <!-- The content provider serving the (fake) weather data -->
+        <provider
+            android:name="com.RSen.Widget.Hangouts.HangoutsDataProvider"
+            android:authorities="com.RSen.Widget.Hangouts.provider"
+            android:exported="true" />
+
+        <service
+            android:name="com.RSen.Widget.Hangouts.NotificationListener"
+            android:label="Hangouts Widget Message Listener"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name="com.RSen.Widget.Hangouts.MainActivity"
+            android:label="Configuration"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.RSen.Widget.Hangouts.BlankActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="Blank" >
+            
+        </activity>
+    </application>
+
+</manifest>
